@@ -23,41 +23,51 @@
     }
     .card {
       border: 4px solid #000;
-      padding: 40px;
+      padding: 15px;
       width: 100%;
-      max-width: 600px;
+      max-width: 400px;
+      height: 400px;
+      aspect-ratio: 1/1;
       background: white;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      overflow: hidden;
     }
     .title {
       font-weight: bold;
-      font-size: 48px;
-      margin-bottom: 20px;
+      font-size: 20px;
+      margin: 0;
       color: #333;
     }
     .subtitle {
-      font-size: 32px;
+      font-size: 18px;
       font-weight: bold;
-      margin: 20px 0;
+      margin: 5px 0;
       color: #667eea;
     }
     .voucher-amount {
-      font-size: 40px;
+      font-size: 18px;
       font-weight: bold;
-      margin: 20px 0;
+      margin: 5px 0;
       color: #764ba2;
     }
     .info {
-      font-size: 24px;
-      margin: 20px 0;
+      font-size: 12px;
+      margin: 5px 0;
       color: #333;
-      line-height: 1.6;
+      line-height: 1.3;
+    }
+    .info strong {
+      font-size: 14px;
+      display: block;
     }
     button {
-      margin-top: 30px;
-      padding: 20px 50px;
-      font-size: 24px;
+      margin-top: 10px;
+      padding: 12px 30px;
+      font-size: 16px;
       font-weight: bold;
       background: #667eea;
       color: white;
@@ -78,49 +88,43 @@
   </style>
 </head>
 <body>
-
   <div class="card" id="card">
     <div class="subtitle">FIX Net Sebatuk</div>
     <div class="voucher-amount">Voucher 50 Ribu</div>
     <div class="info">Klik dibawah</div>
   </div>
-
   <button onclick="ambil()">Ambil Voucher</button>
-
   <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbyudyaXZBqEI5ia-7oicFttecj_4-lvs5jfCBW1yPXMWEaOiNb8p8qimzribAOpCsJX/exec';
-
     async function ambil() {
       const card = document.getElementById('card');
       const infoDiv = card.querySelector('.info');
-      infoDiv.textContent = 'Mengambil voucher...';
-
+      if (infoDiv) {
+        infoDiv.textContent = 'Mengambil voucher...';
+      }
       try {
         const res = await fetch(API_URL);
         const data = await res.json();
-
         if (data.status === 'empty') {
           card.innerHTML =
             '<div class="subtitle">FIX Net Sebatuk</div>' +
-            '<div class="info" style="color: red; font-weight: bold; font-size: 28px; margin: 20px 0;">Voucher habis</div>' +
-            '<div class="info">Hari ini sudah ditampilkan: ' + (data.today_count || 0) + ' voucher</div>';
+            '<div class="info" style="color: red; font-weight: bold; font-size: 16px; margin: 10px 0;">Voucher habis</div>' +
+            '<div class="info">Hari ini ditampilkan:<br><strong>' + (data.today_count || 0) + ' voucher</strong></div>';
           return;
         }
-
         const waktu = new Date(data.used_at);
-
         card.innerHTML =
           '<div class="subtitle">FIX Net Sebatuk</div>' +
           '<div class="voucher-amount">Voucher 50 Ribu</div>' +
-          '<div class="info" style="margin: 30px 0;">User :<br><strong style="font-size: 32px;">' + data.user + '</strong></div>' +
-          '<div class="info" style="margin: 30px 0;">Paswd :<br><strong style="font-size: 32px;">' + data.pass + '</strong></div>' +
-          '<div class="info" style="margin: 30px 0;">Waktu:<br>' + waktu.toLocaleString() + '</div>' +
-          '<div class="info">Hari ini ditampilkan: ' + (data.today_count || 0) + ' voucher</div>';
+          '<div class="info">User:<br><strong>' + data.user + '</strong></div>' +
+          '<div class="info">Paswd:<br><strong>' + data.pass + '</strong></div>' +
+          '<div class="info">Waktu:<br>' + waktu.toLocaleString() + '</div>';
       } catch (e) {
-        infoDiv.textContent = 'Gagal: ' + e;
+        if (infoDiv) {
+          infoDiv.textContent = 'Gagal: ' + e;
+        }
       }
     }
   </script>
-
 </body>
 </html>
