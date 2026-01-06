@@ -114,12 +114,8 @@
     <div class="voucher-amount">Voucher 50 Ribu</div>
     <div class="info">Klik dibawah</div>
   </div>
+   <div id="todayCount" style="margin-top: 15px; font-size: 14px; color: #333; text-align: center;">Diambil hari ini: <strong id="countDisplay">0</strong></div>
   <button class="btn-primary" onclick="ambil()">Ambil Voucher</button>
-  <div id="shareContainer" style="display: none; margin-top: 10px;">
-    <div class="button-group">
-      <button class="btn-share" onclick="shareVoucher()">📱 Bagikan</button>
-    </div>
-  </div>
   <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbyudyaXZBqEI5ia-7oicFttecj_4-lvs5jfCBW1yPXMWEaOiNb8p8qimzribAOpCsJX/exec';
     let cardElement = null;
@@ -138,7 +134,6 @@
             '<div class="subtitle">FIX Net Sebatuk</div>' +
             '<div class="info" style="color: red; font-weight: bold; font-size: 14px; margin: 5px 0;">Voucher habis</div>' +
             '<div class="info">Ditampilkan:<br><strong style="font-size:13px;">' + (data.today_count || 0) + '</strong></div>';
-          document.getElementById('shareContainer').style.display = 'none';
           return;
         }
         const waktu = new Date(data.used_at);
@@ -150,12 +145,10 @@
           '<div class="info"><label>Paswd:</label><strong style="font-size:15px;">' + data.pass + '</strong></div>' +
           '<div class="info"><label>Waktu:</label><strong style="font-size:12px;">' + timeStr + '</strong></div>';
         cardElement = {user: data.user, pass: data.pass, time: timeStr};
-        document.getElementById('shareContainer').style.display = 'block';
       } catch (e) {
         if (infoDiv) {
           infoDiv.textContent = 'Error';
         }
-        document.getElementById('shareContainer').style.display = 'none';
       }
     }
     
