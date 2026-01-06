@@ -145,6 +145,7 @@
           '<div class="info"><label>Paswd:</label><strong style="font-size:15px;">' + data.pass + '</strong></div>' +
           '<div class="info"><label>Waktu:</label><strong style="font-size:12px;">' + timeStr + '</strong></div>';
         cardElement = {user: data.user, pass: data.pass, time: timeStr};
+         document.getElementById('countDisplay').textContent = data.today_count || 0;
       } catch (e) {
         if (infoDiv) {
           infoDiv.textContent = 'Error';
